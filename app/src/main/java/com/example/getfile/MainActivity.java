@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
 //                listView.setAdapter(adapter);
 //            }
 
-            //dadf
+
 //        File f = new File(strpath);
 //        File[] files = f.listFiles();
 //        Datalist = new ArrayList<Map<String, Object>>();
