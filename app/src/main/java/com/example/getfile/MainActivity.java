@@ -23,7 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,13 +78,29 @@ public class MainActivity extends Activity {
                     for (File file : sdpath.listFiles()){
                         Map<String,Object> map = new HashMap<String,Object>();
                         map.put("title",file.getName());
-                        map.put("info",file.getPath());
+                      //  map.put("info",file.getPath());
                         if (file.isDirectory()){
                             map.put("icon",R.mipmap.ex_folder);
                         }else if (file.getName().endsWith(".mp3")){
                             map.put("icon",R.mipmap.mp3);
                         }else if (file.getName().endsWith(".mp4")){
                             map.put("icon",R.mipmap.mp4);
+                        } else if (file.getName().endsWith(".jpg")){
+                            map.put("icon",R.mipmap.jpeg);
+                        }else if (file.getName().endsWith(".txt")){
+                            map.put("icon",R.mipmap.text);
+                        }else if (file.getName().endsWith(".ppt")){
+                            map.put("icon",R.mipmap.pptx_win);
+                        }else if (file.getName().endsWith(".doc")||file.getName().endsWith(".docx")||file.getName().endsWith(".wps")){
+                            map.put("icon",R.mipmap.docx_win);
+                        }else if (file.getName().endsWith(".xls")||file.getName().endsWith(".et")||file.getName().endsWith("xlsx")){
+                            map.put("icon",R.mipmap.xlsx_win);
+                        }else if (file.getName().endsWith(".rar")){
+                            map.put("icon",R.mipmap.rar);
+                        }else if (file.getName().endsWith(".zip")){
+                            map.put("icon",R.mipmap.zip);
+                        }else {
+                            map.put("icon",R.mipmap.ex_doc);
                         }
                         list.add(map);
                     }
@@ -137,12 +156,10 @@ public class MainActivity extends Activity {
     public class ViewHolder{
         public ImageView icon;
         public TextView title;
-        public TextView info;
+     //   public TextView info;
        // public TextView size;
     }
     public class MyAdapter extends BaseAdapter{
-
-
         @Override
         public int getCount() {
             return mData.size();
@@ -169,17 +186,18 @@ public class MainActivity extends Activity {
                 holder = new ViewHolder();
                 holder.icon = (ImageView)convertView.findViewById(R.id.imageviwe);
                 holder.title =(TextView)convertView.findViewById(R.id.filename);
-                holder.info =(TextView)convertView.findViewById(R.id.filesize);
+             //   holder.info =(TextView)convertView.findViewById(R.id.filesize);
                 convertView.setTag(holder);
             }else {
                 holder = (ViewHolder)convertView.getTag();
             }
             holder.icon.setImageResource((Integer)mData.get(position).get("icon"));
-            holder.title.setText((String)mData.get(position).get("title"));
-            holder.info.setText((String)mData.get(position).get("info"));
+            holder.title.setText((String) mData.get(position).get("title"));
+          //  holder.info.setText((String)mData.get(position).get("info"));
             return convertView;
         }
     }
+
 
 
 
