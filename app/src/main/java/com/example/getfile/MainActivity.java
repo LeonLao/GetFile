@@ -13,27 +13,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import android.widget.AdapterView.OnItemClickListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends Activity {
-    ListView listView;
+    private ListView listView;
     private File filepath;
     private File audiofile;
     private String strpath;
@@ -63,7 +60,24 @@ public class MainActivity extends Activity {
         mData=getData();
         listView.setAdapter(adapter);
 
+
+        listView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //openFile((String)mData.get(position).get("info"));
+                String fff = mData.get(position).get("info").toString();
+                openFile(fff);
+            }
+        });
+
     }
+
+    private void openFile(String filePath) {
+        File ofile = new File(filePath);
+        Toast.makeText(MainActivity.this,filePath,Toast.LENGTH_LONG).show();
+
+    }
+
 
     private List<Map<String,Object>> getData() {
         List<Map<String,Object>> list = new ArrayList<Map<String, Object>>();
@@ -78,7 +92,8 @@ public class MainActivity extends Activity {
                     for (File file : sdpath.listFiles()){
                         Map<String,Object> map = new HashMap<String,Object>();
                         map.put("title",file.getName());
-                      //  map.put("info",file.getPath());
+                        map.put("filePath",file.getPath());
+                        map.put("info",file.getPath());
                         if (file.isDirectory()){
                             map.put("icon",R.mipmap.ex_folder);
                         }else if (file.getName().endsWith(".mp3")){
@@ -111,43 +126,6 @@ public class MainActivity extends Activity {
         }
             return list;
 
-//            Datalist = new ArrayList<Map<String, Object>>();
-//            Map<String,Object> map = null;
-//            for (File file:home.listFiles()){
-//                map = new HashMap<String, Object>();
-//                map.put("title",file.getName());
-//                map.put("info",file.getPath());
-////                if (file.isDirectory()){
-////                    map.put("icon",R.mipmap.ex_folder);
-////                }else {
-////                    map.put("icon", R.mipmap.ex_doc);
-////
-////                }
-//                Datalist.add(map);
-//                MyAdapter adapter = new MyAdapter();
-//                listView.setAdapter(adapter);
-//            }
-
-
-//        File f = new File(strpath);
-//        File[] files = f.listFiles();
-//        Datalist = new ArrayList<Map<String, Object>>();
-//        Map<String,Object> map = null;
-//        if (files !=null){
-//            for (int i=0;i<files.length;i++){
-//                map = new HashMap<String, Object>();
-//                map.put("title",files[i].getName());
-//                map.put("info",files[i].getPath());
-//                if (files[i].isDirectory()){
-//                    map.put("icon",R.mipmap.ex_folder);
-//                }else {
-//                    map.put("icon",R.mipmap.ex_doc);
-//                    Datalist.add(map);
-//                }
-//            }
-//        }
-//        MyAdapter adapter = new MyAdapter();
-//        listView.setAdapter(adapter);
     }
 
 
@@ -156,7 +134,8 @@ public class MainActivity extends Activity {
     public class ViewHolder{
         public ImageView icon;
         public TextView title;
-     //   public TextView info;
+        public TextView info;
+        public Button btn;
        // public TextView size;
     }
     public class MyAdapter extends BaseAdapter{
@@ -179,21 +158,28 @@ public class MainActivity extends Activity {
 
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             if (convertView == null ){
                 convertView =View.inflate(MainActivity.this,R.layout.filelist_item,null);
                 holder = new ViewHolder();
                 holder.icon = (ImageView)convertView.findViewById(R.id.imageviwe);
                 holder.title =(TextView)convertView.findViewById(R.id.filename);
-             //   holder.info =(TextView)convertView.findViewById(R.id.filesize);
+                holder.info =(TextView)convertView.findViewById(R.id.filesize);
+                holder.btn =(Button)convertView.findViewById(R.id.button);
                 convertView.setTag(holder);
             }else {
                 holder = (ViewHolder)convertView.getTag();
             }
             holder.icon.setImageResource((Integer)mData.get(position).get("icon"));
             holder.title.setText((String) mData.get(position).get("title"));
-          //  holder.info.setText((String)mData.get(position).get("info"));
+            holder.info.setText((String)mData.get(position).get("info"));
+            holder.btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this,(String)mData.get(position).get("info"),Toast.LENGTH_LONG).show();
+                }
+            });
             return convertView;
         }
     }
