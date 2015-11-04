@@ -2,15 +2,47 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tupian"
+        android:text="图片"/>
 
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:padding="20dp"
-        android:dividerHeight="10dp"/>
+        android:dividerHeight="10dp"
+        android:layout_below="@+id/tupian" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="文档"
+        android:id="@+id/wendang"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tupian"
+        android:layout_toEndOf="@+id/tupian" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="视频"
+        android:id="@+id/shipin"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/wendang"
+        android:layout_toEndOf="@+id/wendang" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全部"
+        android:id="@+id/button2"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/shipin"
+        android:layout_toEndOf="@+id/shipin" />
 </RelativeLayout>
